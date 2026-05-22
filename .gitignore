@@ -1,0 +1,21 @@
+# Terraform
+infrastructure/.terraform/
+infrastructure/terraform.tfstate
+infrastructure/terraform.tfstate.backup
+infrastructure/tfplan
+infrastructure/terraform.tfvars
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
