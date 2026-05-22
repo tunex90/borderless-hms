@@ -93,6 +93,7 @@ jobs:
           aws ecs wait services-stable \
             --cluster $ECS_CLUSTER \
             --services $BACKEND_SERVICE $FRONTEND_SERVICE
+        timeout-minutes: 15
 
       - name: Print ALB URL
         run: |
