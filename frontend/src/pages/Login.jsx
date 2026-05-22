@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -8,18 +8,9 @@ export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm()
-
-  // Handle browser autofill which doesn't trigger onChange events
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const u = document.querySelector('input[name="username"]')
-      const p = document.querySelector('input[name="password"]')
-      if (u?.value) setValue('username', u.value)
-      if (p?.value) setValue('password', p.value)
-    }, 500)
-    return () => clearInterval(interval)
-  }, [setValue])
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: { username: '', password: '' }
+  })
 
   const onSubmit = async (data) => {
     setLoading(true)
@@ -27,7 +18,8 @@ export default function Login() {
       await login(data.username, data.password)
       toast.success('Welcome back')
       navigate('/')
-    } catch {
+    } catch (err) {
+      console.error('Login error:', err?.response?.status, err?.response?.data, err?.message)
       toast.error('Invalid credentials. Please try again.')
     } finally {
       setLoading(false)

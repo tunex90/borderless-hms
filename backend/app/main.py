@@ -33,7 +33,10 @@ async def lifespan(app: FastAPI):
                 is_active=True,
             )
             db.add(default_admin)
-            db.commit()
+            try:
+                db.commit()
+            except Exception:
+                db.rollback()
     finally:
         db.close()
 
